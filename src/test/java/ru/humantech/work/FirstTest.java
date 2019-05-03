@@ -46,36 +46,13 @@ public class FirstTest {
     WebDriverWait wait = new WebDriverWait(driver, 20);
     wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
     //personal consent page
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.name("PersonalConsent")))).click();
-    driver.findElement(By.className("ButtonNext")).click();
+    personalConsent(wait);
+
     //first page with selects
-    Select field = new Select(driver.findElement(By.xpath("//select[@tabindex='10']")));
-    field.selectByValue("35");
-    Select country = new Select(driver.findElement(By.xpath("//select[@tabindex='11']")));
-    country.selectByValue("30");
-    Select language = new Select(driver.findElement(By.xpath("//select[@tabindex='12']")));
-    language.selectByValue("25");
-    Select gender = new Select(driver.findElement(By.xpath("//select[@tabindex='13']")));
-    gender.selectByValue("161");
-    Select education = new Select(driver.findElement(By.xpath("//select[@tabindex='14']")));
-    education.selectByValue("20");
-    Select educationDesc = new Select(driver.findElement(By.xpath("//select[@tabindex='15']")));
-    educationDesc.selectByValue("11");
-    Select position = new Select(driver.findElement(By.xpath("//select[@tabindex='16']")));
-    position.selectByValue("6");
-    Select yearOfBirth = new Select(driver.findElement(By.xpath("//select[@tabindex='17']")));
-    yearOfBirth.selectByValue("103");
-    driver.findElement(By.className("ButtonNext")).click();
+    preliminaryInformation();
+    
     //info
-    driver.findElement((By.className("LastName"))).sendKeys("Куприянова");
-    driver.findElement((By.className("FirstName"))).sendKeys("Марина");
-    driver.findElement((By.className("MiddleName"))).sendKeys("Владимировна");
-    Select dayOfBirth = new Select(driver.findElement(By.xpath("//select[@class='BirthDay' and @tabindex='15']")));
-    dayOfBirth.selectByValue("13");
-    Select monthOfBirth = new Select(driver.findElement(By.xpath("//select[@class='BirthMonth' and @tabindex='16']")));
-    monthOfBirth.selectByValue("03");
-    driver.findElement((By.className("Email"))).sendKeys("ololo.ololo.0987@gmail.com");
-    driver.findElement(By.className("ButtonNext")).click();
+    respondentInformation();
 
     //instruction
     Thread.sleep(1000);
@@ -192,6 +169,43 @@ public class FirstTest {
     //driver.findElement(By.className("ButtonNext")).click();
     driver.close();
     driver.switchTo().window(parentHandle);
+  }
+
+  private void respondentInformation() {
+    driver.findElement((By.className("LastName"))).sendKeys("Куприянова");
+    driver.findElement((By.className("FirstName"))).sendKeys("Марина");
+    driver.findElement((By.className("MiddleName"))).sendKeys("Владимировна");
+    Select dayOfBirth = new Select(driver.findElement(By.xpath("//select[@class='BirthDay' and @tabindex='15']")));
+    dayOfBirth.selectByValue("13");
+    Select monthOfBirth = new Select(driver.findElement(By.xpath("//select[@class='BirthMonth' and @tabindex='16']")));
+    monthOfBirth.selectByValue("03");
+    driver.findElement((By.className("Email"))).sendKeys("ololo.ololo.0987@gmail.com");
+    driver.findElement(By.className("ButtonNext")).click();
+  }
+
+  private void preliminaryInformation() {
+    Select field = new Select(driver.findElement(By.xpath("//select[@tabindex='10']")));
+    field.selectByValue("35");
+    Select country = new Select(driver.findElement(By.xpath("//select[@tabindex='11']")));
+    country.selectByValue("30");
+    Select language = new Select(driver.findElement(By.xpath("//select[@tabindex='12']")));
+    language.selectByValue("25");
+    Select gender = new Select(driver.findElement(By.xpath("//select[@tabindex='13']")));
+    gender.selectByValue("161");
+    Select education = new Select(driver.findElement(By.xpath("//select[@tabindex='14']")));
+    education.selectByValue("20");
+    Select educationDesc = new Select(driver.findElement(By.xpath("//select[@tabindex='15']")));
+    educationDesc.selectByValue("11");
+    Select position = new Select(driver.findElement(By.xpath("//select[@tabindex='16']")));
+    position.selectByValue("6");
+    Select yearOfBirth = new Select(driver.findElement(By.xpath("//select[@tabindex='17']")));
+    yearOfBirth.selectByValue("103");
+    driver.findElement(By.className("ButtonNext")).click();
+  }
+
+  private void personalConsent(WebDriverWait wait) {
+    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.name("PersonalConsent")))).click();
+    driver.findElement(By.className("ButtonNext")).click();
   }
 
   private void gotoBP6PageGeneralLink() {
