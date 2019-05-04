@@ -6,16 +6,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import static org.testng.Assert.assertTrue;
 
-public class FirstTest {
+public class BPTestGeneralLink {
   private WebDriver driver;
-  //private boolean acceptNextAlert = true;
+//  private boolean acceptNextAlert = true;
   //private StringBuffer verificationErrors = new StringBuffer();
 
   @BeforeClass(alwaysRun = true)
@@ -41,7 +40,7 @@ public class FirstTest {
   public void testGeneralLink()  throws Exception {
 
     String parentHandle = driver.getWindowHandle();
-    WebDriverWait wait = new WebDriverWait(driver, 20);
+    WebDriverWait wait = new WebDriverWait(driver, 40);
     Robot robot = new Robot();
 
 //    gotoServiceOfBP6Page();
@@ -62,50 +61,44 @@ public class FirstTest {
     testBlock(wait, robot, 8, "page must contains eigth test block instruction", KeyEvent.VK_3);
     testBlock(wait, robot, 9, "page must contains ninth test block instruction", KeyEvent.VK_1);
 
+    showingResult(wait);
 
-    //result
-    Thread.sleep(1000);
-    try {
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='ModalPanel']//*[@class='IndicatorText']")).isDisplayed());
-    } catch (AssertionError e) {
-      System.err.println("Data processing panel must be shown");
-    }
-    Thread.sleep(5000);
-    wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
-    try {
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='TestingResultPanel']//*[@class='PanelValue']")).isDisplayed());
-    } catch (AssertionError e) {
-      System.err.println("Message that test session completed must be shown");
-    }
-    driver.findElement(By.className("ButtonNext")).click();
+    driver.close();
+    driver.switchTo().window(parentHandle);
+    driver.findElement(By.name("ButtonLogout")).click();
+    driver.switchTo().alert().accept();
+  }
+
+  private void showingResult(WebDriverWait wait) throws InterruptedException {
+    TimeUnit.SECONDS.sleep(30);
+    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
+    TimeUnit.SECONDS.sleep(20);
     wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("MTSReportBody"))));
     try {
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).isDisplayed());
     } catch (AssertionError e) {
       System.err.println("Block 'Information about the test' must be shown");
     }
     try {
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).isDisplayed());
     } catch (AssertionError e) {
       System.err.println("Block 'Information about the respondent' must be shown");
     }
     try {
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).isDisplayed());
     } catch (AssertionError e) {
       System.err.println("Block 'Results' must be shown");
     }
     try {
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).isDisplayed());
     } catch (AssertionError e) {
       System.err.println("Block 'Description of results' must be shown");
     }
     try {
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Блок развития']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Блок развития']")).isDisplayed());
     } catch (AssertionError e) {
       System.err.println("Block 'Development' must be shown");
     }
-    driver.close();
-    driver.switchTo().window(parentHandle);
   }
 
   private void testBlock(WebDriverWait wait, Robot robot, int i2, String s, int vk3) throws InterruptedException {
@@ -114,7 +107,7 @@ public class FirstTest {
     Thread.sleep(1000);
     wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
     try {
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='BlockInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='BlockInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
       Assert.assertEquals(Integer.parseInt((driver.findElement(By.xpath("//*[@class='BlockNumber']")).getText())), i2);
     } catch (AssertionError e) {
       System.err.println(s);
@@ -127,7 +120,7 @@ public class FirstTest {
       TimeUnit.SECONDS.sleep(1);
       wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
       try {
-        Assert.assertTrue(driver.findElement(By.className("ButtonInstruction")).isDisplayed());
+        assertTrue(driver.findElement(By.className("ButtonInstruction")).isDisplayed());
       } catch (AssertionError e) {
         System.err.println("page with question must contains instruction button");
       }
@@ -139,7 +132,7 @@ public class FirstTest {
   private void testInstruction(WebDriverWait wait) {
     wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
     try{
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='TestInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='TestInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
     }catch (AssertionError e){
       System.err.println("page must contains instruction for the test");
     }
@@ -149,7 +142,7 @@ public class FirstTest {
   private void respondentInformation(WebDriverWait wait) throws InterruptedException {
     wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
     try{
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='ParticipantPanel']//*[@class='PanelValue']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='ParticipantPanel']//*[@class='PanelValue']")).isDisplayed());
     }catch (AssertionError e){
       System.err.println("page must contains questionnaire");
     }
@@ -168,7 +161,7 @@ public class FirstTest {
   private void preliminaryInformation(WebDriverWait wait)  {
     wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
     try{
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='PreliminaryPanel']//*[@class='PanelValue']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='PreliminaryPanel']//*[@class='PanelValue']")).isDisplayed());
     }catch (AssertionError e){
       System.err.println("page must contains preliminary questionnaire");
     }
@@ -195,7 +188,7 @@ public class FirstTest {
   private void personalConsent(WebDriverWait wait) {
     wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.name("PersonalConsent"))));
     try{
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='ConsentPanel']//*[@class='PanelValue']")).isDisplayed());
+      assertTrue(driver.findElement(By.xpath("//*[@class='ConsentPanel']//*[@class='PanelValue']")).isDisplayed());
     }catch (AssertionError e){
       System.err.println("page must contains personal consent block");
     }
@@ -211,34 +204,6 @@ public class FirstTest {
     }
   }
 
-//  private void gotoServiceOfBP6Page() {
-//    driver.findElement(By.xpath("//*[@class='MTSLink' and @href='/maintest-5i/?action=service&test=171107-155030-f69b']")).click();
-//    String parentHandle = driver.getWindowHandle();
-//  }
-
-  //    Thread.sleep(1000);
-//    wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
-//    try{
-//      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='BlockInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
-//      Assert.assertEquals(Integer.parseInt((driver.findElement(By.xpath("//*[@class='BlockNumber']")).getText())),1);
-//    }catch (AssertionError e){
-//      System.err.println("page must contains first block's instruction");
-//    }
-//    driver.findElement(By.className("ButtonNext")).click();
-//    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
-//    questionCount= Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-//    for (i = 1; i<=questionCount; i++) {
-////      Thread.sleep(1000);
-//      TimeUnit.SECONDS.sleep(1);
-//      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-//      try{
-//        Assert.assertTrue(driver.findElement(By.className("ButtonInstruction")).isDisplayed());
-//      }catch (AssertionError e){
-//        System.err.println("page with question must contains instruction button");
-//      }
-//      robot.keyPress(KeyEvent.VK_1);
-//      driver.findElement(By.className("ButtonNext")).click();
-//    }
 
   @AfterClass(alwaysRun = true)
   public void tearDown() {
