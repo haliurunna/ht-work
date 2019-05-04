@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.awt.Robot;
@@ -40,138 +41,119 @@ public class FirstTest {
   public void testGeneralLink()  throws Exception {
 
     String parentHandle = driver.getWindowHandle();
+    WebDriverWait wait = new WebDriverWait(driver, 20);
+    Robot robot = new Robot();
+
 //    gotoServiceOfBP6Page();
     gotoBP6PageGeneralLink();
 
-    WebDriverWait wait = new WebDriverWait(driver, 20);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-    //personal consent page
+    testInstruction(wait);
     personalConsent(wait);
+    preliminaryInformation(wait);
+    respondentInformation(wait);
 
-    //first page with selects
-    preliminaryInformation();
-    
-    //info
-    respondentInformation();
+    testBlock(wait, robot, 1, "page must contains first test block instruction", KeyEvent.VK_1);
+    testBlock(wait, robot, 2, "page must contains second test block instruction", KeyEvent.VK_2);
+    testBlock(wait, robot, 3, "page must contains third test block instruction", KeyEvent.VK_3);
+    testBlock(wait, robot, 4, "page must contains fourth test block instruction", KeyEvent.VK_2);
+    testBlock(wait, robot, 5, "page must contains fifth test block instruction", KeyEvent.VK_3);
+    testBlock(wait, robot, 6, "page must contains sixth test block instruction", KeyEvent.VK_2);
+    testBlock(wait, robot, 7, "page must contains seventh test block instruction", KeyEvent.VK_3);
+    testBlock(wait, robot, 8, "page must contains eigth test block instruction", KeyEvent.VK_3);
+    testBlock(wait, robot, 9, "page must contains ninth test block instruction", KeyEvent.VK_1);
 
-    //instruction
-    Thread.sleep(1000);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-
-    Robot robot = new Robot();
-    int i;
-    int questionCount;
-
-   //test block  1
-
-    questionCount= Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-    for (i = 1; i<=questionCount; i++) {
-      Thread.sleep(1000);
-      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-      robot.keyPress(KeyEvent.VK_1);
-      driver.findElement(By.className("ButtonNext")).click();
-    }
-
-   //test block  2
-    Thread.sleep(1000);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-    questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-    for (i = 1; i<=questionCount; i++){
-      Thread.sleep(1000);
-      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-      robot.keyPress(KeyEvent.VK_2);
-      driver.findElement(By.className("ButtonNext")).click();
-    }
-
-   //test block 3
-    Thread.sleep(1000);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-    questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-    for (i = 1; i<=questionCount; i++){
-      Thread.sleep(1000);
-      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-      robot.keyPress(KeyEvent.VK_3);
-      driver.findElement(By.className("ButtonNext")).click();
-    }
-
-    //test block 4
-    Thread.sleep(1000);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-    questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-    for (i = 1; i<=questionCount; i++){
-      Thread.sleep(1000);
-      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-      robot.keyPress(KeyEvent.VK_2);
-      driver.findElement(By.className("ButtonNext")).click();
-    }
-
-    //test block 5
-    Thread.sleep(1000);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-    questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-    for (i = 1; i<=questionCount; i++){
-      Thread.sleep(1000);
-      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-      robot.keyPress(KeyEvent.VK_3);
-      driver.findElement(By.className("ButtonNext")).click();
-    }
-
-    //test block 6
-    Thread.sleep(1000);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-    questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-    for (i = 1; i<=questionCount; i++){
-      Thread.sleep(1000);
-      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-      robot.keyPress(KeyEvent.VK_3);
-      driver.findElement(By.className("ButtonNext")).click();
-    }
-
-    //test block 7
-    Thread.sleep(1000);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-    questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-    for (i = 1; i<=questionCount; i++){
-      Thread.sleep(1000);
-      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-      robot.keyPress(KeyEvent.VK_3);
-      driver.findElement(By.className("ButtonNext")).click();
-    }
-
-    //test block 8
-    Thread.sleep(1000);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-    questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-    for (i = 1; i<=questionCount; i++){
-      Thread.sleep(1000);
-      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-      robot.keyPress(KeyEvent.VK_3);
-      driver.findElement(By.className("ButtonNext")).click();
-    }
-
-    //test block 9
-    Thread.sleep(1000);
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext")))).click();
-    questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
-    for (i = 1; i<=questionCount; i++){
-      Thread.sleep(1000);
-      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
-      robot.keyPress(KeyEvent.VK_1);
-      driver.findElement(By.className("ButtonNext")).click();
-    }
 
     //result
-    Thread.sleep(15000);
-    wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ButtonNext"))).click();
+    Thread.sleep(1000);
+    try {
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='ModalPanel']//*[@class='IndicatorText']")).isDisplayed());
+    } catch (AssertionError e) {
+      System.err.println("Data processing panel must be shown");
+    }
+    Thread.sleep(5000);
+    wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
+    try {
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='TestingResultPanel']//*[@class='PanelValue']")).isDisplayed());
+    } catch (AssertionError e) {
+      System.err.println("Message that test session completed must be shown");
+    }
+    driver.findElement(By.className("ButtonNext")).click();
     wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("MTSReportBody"))));
-    //driver.findElement(By.className("ButtonNext")).click();
-    //wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("test_title"))));
-    //driver.findElement(By.className("ButtonNext")).click();
+    try {
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).isDisplayed());
+    } catch (AssertionError e) {
+      System.err.println("Block 'Information about the test' must be shown");
+    }
+    try {
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).isDisplayed());
+    } catch (AssertionError e) {
+      System.err.println("Block 'Information about the respondent' must be shown");
+    }
+    try {
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).isDisplayed());
+    } catch (AssertionError e) {
+      System.err.println("Block 'Results' must be shown");
+    }
+    try {
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).isDisplayed());
+    } catch (AssertionError e) {
+      System.err.println("Block 'Description of results' must be shown");
+    }
+    try {
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Блок развития']")).isDisplayed());
+    } catch (AssertionError e) {
+      System.err.println("Block 'Development' must be shown");
+    }
     driver.close();
     driver.switchTo().window(parentHandle);
   }
 
-  private void respondentInformation() {
+  private void testBlock(WebDriverWait wait, Robot robot, int i2, String s, int vk3) throws InterruptedException {
+    int questionCount;
+    int i;
+    Thread.sleep(1000);
+    wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
+    try {
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='BlockInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
+      Assert.assertEquals(Integer.parseInt((driver.findElement(By.xpath("//*[@class='BlockNumber']")).getText())), i2);
+    } catch (AssertionError e) {
+      System.err.println(s);
+    }
+    driver.findElement(By.className("ButtonNext")).click();
+    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
+    questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
+    for (i = 1; i <= questionCount; i++) {
+//      Thread.sleep(1000);
+      TimeUnit.SECONDS.sleep(1);
+      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
+      try {
+        Assert.assertTrue(driver.findElement(By.className("ButtonInstruction")).isDisplayed());
+      } catch (AssertionError e) {
+        System.err.println("page with question must contains instruction button");
+      }
+      robot.keyPress(vk3);
+      driver.findElement(By.className("ButtonNext")).click();
+    }
+  }
+
+  private void testInstruction(WebDriverWait wait) {
+    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
+    try{
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='TestInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
+    }catch (AssertionError e){
+      System.err.println("page must contains instruction for the test");
+    }
+    driver.findElement(By.className("ButtonNext")).click();
+  }
+
+  private void respondentInformation(WebDriverWait wait) throws InterruptedException {
+    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
+    try{
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='ParticipantPanel']//*[@class='PanelValue']")).isDisplayed());
+    }catch (AssertionError e){
+      System.err.println("page must contains questionnaire");
+    }
+//    TimeUnit.SECONDS.sleep(1);
     driver.findElement((By.className("LastName"))).sendKeys("Куприянова");
     driver.findElement((By.className("FirstName"))).sendKeys("Марина");
     driver.findElement((By.className("MiddleName"))).sendKeys("Владимировна");
@@ -183,7 +165,14 @@ public class FirstTest {
     driver.findElement(By.className("ButtonNext")).click();
   }
 
-  private void preliminaryInformation() {
+  private void preliminaryInformation(WebDriverWait wait)  {
+    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
+    try{
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='PreliminaryPanel']//*[@class='PanelValue']")).isDisplayed());
+    }catch (AssertionError e){
+      System.err.println("page must contains preliminary questionnaire");
+    }
+
     Select field = new Select(driver.findElement(By.xpath("//select[@tabindex='10']")));
     field.selectByValue("35");
     Select country = new Select(driver.findElement(By.xpath("//select[@tabindex='11']")));
@@ -204,7 +193,13 @@ public class FirstTest {
   }
 
   private void personalConsent(WebDriverWait wait) {
-    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.name("PersonalConsent")))).click();
+    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.name("PersonalConsent"))));
+    try{
+      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='ConsentPanel']//*[@class='PanelValue']")).isDisplayed());
+    }catch (AssertionError e){
+      System.err.println("page must contains personal consent block");
+    }
+    driver.findElement((By.name("PersonalConsent"))).click();
     driver.findElement(By.className("ButtonNext")).click();
   }
 
@@ -220,6 +215,30 @@ public class FirstTest {
 //    driver.findElement(By.xpath("//*[@class='MTSLink' and @href='/maintest-5i/?action=service&test=171107-155030-f69b']")).click();
 //    String parentHandle = driver.getWindowHandle();
 //  }
+
+  //    Thread.sleep(1000);
+//    wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
+//    try{
+//      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='BlockInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
+//      Assert.assertEquals(Integer.parseInt((driver.findElement(By.xpath("//*[@class='BlockNumber']")).getText())),1);
+//    }catch (AssertionError e){
+//      System.err.println("page must contains first block's instruction");
+//    }
+//    driver.findElement(By.className("ButtonNext")).click();
+//    wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
+//    questionCount= Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
+//    for (i = 1; i<=questionCount; i++) {
+////      Thread.sleep(1000);
+//      TimeUnit.SECONDS.sleep(1);
+//      wait.until(ExpectedConditions.textToBePresentInElement(driver.findElement(By.xpath("//*[@class='BlockQuestionNumber']")), String.valueOf(i)));
+//      try{
+//        Assert.assertTrue(driver.findElement(By.className("ButtonInstruction")).isDisplayed());
+//      }catch (AssertionError e){
+//        System.err.println("page with question must contains instruction button");
+//      }
+//      robot.keyPress(KeyEvent.VK_1);
+//      driver.findElement(By.className("ButtonNext")).click();
+//    }
 
   @AfterClass(alwaysRun = true)
   public void tearDown() {
