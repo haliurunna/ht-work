@@ -55,20 +55,26 @@ public class BPTestRecoveryFromPersonalAccount {
     preliminaryInformation(wait);
     respondentInformation(wait);
 
-    testBlock(wait, robot, 1, "page must contains first test block instruction", KeyEvent.VK_1);
-
     wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
     driver.close();
     driver.switchTo().window(parentHandle);
     driver.findElement(By.xpath("//*[@class='MTSLink' and @href='/maintest-5i/?action=sessions&test=171107-155030-f69b&reset=1&clear=1']")).click();
     wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@class='MTSNavigateLink' and @id='idMenuNavigationMenu1']"))));
     Select sessionState = new Select(driver.findElement(By.xpath("//*[@class='MTSInputField' and @name='SessionState']")));
-    sessionState.selectByValue("active");
+    sessionState.selectByValue("leaved");
     driver.findElement(By.xpath("//*[@class='MTSButton90' and @id='idButtonFiltersApply' and @title='Применить выбранные фильтры записей']")).click();
     TimeUnit.SECONDS.sleep(5);
     driver.findElement(By.xpath("//*[@class='MTSLink' and @title='просмотреть информацию о сеансе'][last()]")).click();
     wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@class='MTSNavigateLink' and contains(text(),'Информация о сеансе')]"))));
+    driver.findElement(By.xpath("//*[@class='MTSLink' and text()='восстановить сеанс']")).click();
+    wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@class='MTSNavigateLink' and text()='Восстановление сеанса']"))));
+    driver.findElement(By.xpath("//*[@class='MTSLinkPopup' and @title='открыть ссылку в новом окне']")).click();
+    for (String winHandle : driver.getWindowHandles()) {
+        driver.switchTo().window(winHandle);
+    }
+    buttonRecoverySession(wait);
 
+    testBlock(wait, robot, 1, "page must contains first test block instruction", KeyEvent.VK_1);
     testBlock(wait, robot, 2, "page must contains second test block instruction", KeyEvent.VK_2);
     testBlock(wait, robot, 3, "page must contains third test block instruction", KeyEvent.VK_3);
     testBlock(wait, robot, 4, "page must contains fourth test block instruction", KeyEvent.VK_2);
@@ -83,7 +89,12 @@ public class BPTestRecoveryFromPersonalAccount {
     logoutFromPage(parentHandle);
   }
 
-  private void logoutFromPage(String parentHandle) {
+    private void buttonRecoverySession(WebDriverWait wait) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ActiveButton")))).click();
+    }
+
+    private void logoutFromPage(String parentHandle) {
     driver.switchTo().window(parentHandle);
     driver.findElement(By.name("ButtonLogout")).click();
     driver.switchTo().alert().accept();
@@ -131,13 +142,13 @@ public class BPTestRecoveryFromPersonalAccount {
     int i;
     Thread.sleep(1000);
     wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
-    try {
-      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='BlockInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
-      Assert.assertEquals(Integer.parseInt((driver.findElement(By.xpath("//*[@class='BlockNumber']")).getText())), i2);
-    } catch (AssertionError e) {
-      System.err.println(s);
-    }
-    driver.findElement(By.className("ButtonNext")).click();
+//    try {
+//      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='BlockInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
+//      Assert.assertEquals(Integer.parseInt((driver.findElement(By.xpath("//*[@class='BlockNumber']")).getText())), i2);
+//    } catch (AssertionError e) {
+//      System.err.println(s);
+//    }
+//    driver.findElement(By.className("ButtonNext")).click();
     wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.className("ButtonNext"))));
     questionCount = Integer.parseInt(driver.findElement(By.xpath("//*[@class='BlockQuestionsCount']")).getText());
     for (i = 1; i <= questionCount; i++) {
