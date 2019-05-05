@@ -165,9 +165,11 @@ public class BPTestPersonalLink {
         }catch (AssertionError e){
             System.err.println("page must contains questionnaire");
         }
-//    TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(1);
         driver.findElement((By.className("LastName"))).sendKeys("Куприянова");
+        TimeUnit.SECONDS.sleep(1);
         driver.findElement((By.className("FirstName"))).sendKeys("Марина");
+        TimeUnit.SECONDS.sleep(1);
         driver.findElement((By.className("MiddleName"))).sendKeys("Владимировна");
         Select dayOfBirth = new Select(driver.findElement(By.xpath("//select[@class='BirthDay' and @tabindex='15']")));
         dayOfBirth.selectByValue("13");

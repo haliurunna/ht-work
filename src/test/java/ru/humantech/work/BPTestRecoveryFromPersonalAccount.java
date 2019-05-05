@@ -1,19 +1,22 @@
 package ru.humantech.work;
 
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.support.ui.Select;
+import com.google.common.collect.Iterables;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.*;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import static org.testng.Assert.assertTrue;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-public class BPTestGeneralLink {
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+public class BPTestRecoveryFromPersonalAccount {
   private WebDriver driver;
 //  private boolean acceptNextAlert = true;
   //private StringBuffer verificationErrors = new StringBuffer();
@@ -39,7 +42,7 @@ public class BPTestGeneralLink {
   }
 
   @Test
-  public void testGeneralLink()  throws Exception {
+  public void testRecoveryFromPersonalAccount()  throws Exception {
 
     String parentHandle = driver.getWindowHandle();
     WebDriverWait wait = new WebDriverWait(driver, 40);
@@ -47,13 +50,25 @@ public class BPTestGeneralLink {
 
 //    gotoServiceOfBP6Page();
     gotoBP6PageGeneralLink();
-
     testInstruction(wait);
     personalConsent(wait);
     preliminaryInformation(wait);
     respondentInformation(wait);
 
     testBlock(wait, robot, 1, "page must contains first test block instruction", KeyEvent.VK_1);
+
+    wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
+    driver.close();
+    driver.switchTo().window(parentHandle);
+    driver.findElement(By.xpath("//*[@class='MTSLink' and @href='/maintest-5i/?action=sessions&test=171107-155030-f69b&reset=1&clear=1']")).click();
+    wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@class='MTSNavigateLink' and @id='idMenuNavigationMenu1']"))));
+    Select sessionState = new Select(driver.findElement(By.xpath("//*[@class='MTSInputField' and @name='SessionState']")));
+    sessionState.selectByValue("active");
+    driver.findElement(By.xpath("//*[@class='MTSButton90' and @id='idButtonFiltersApply' and @title='Применить выбранные фильтры записей']")).click();
+    TimeUnit.SECONDS.sleep(5);
+    driver.findElement(By.xpath("//*[@class='MTSLink' and @title='просмотреть информацию о сеансе'][last()]")).click();
+    wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@class='MTSNavigateLink' and contains(text(),'Информация о сеансе')]"))));
+
     testBlock(wait, robot, 2, "page must contains second test block instruction", KeyEvent.VK_2);
     testBlock(wait, robot, 3, "page must contains third test block instruction", KeyEvent.VK_3);
     testBlock(wait, robot, 4, "page must contains fourth test block instruction", KeyEvent.VK_2);
@@ -156,14 +171,12 @@ public class BPTestGeneralLink {
     }catch (AssertionError e){
       System.err.println("page must contains questionnaire");
     }
-//    TimeUnit.SECONDS.sleep(1);
     TimeUnit.SECONDS.sleep(1);
     driver.findElement((By.className("LastName"))).sendKeys("Куприянова");
     TimeUnit.SECONDS.sleep(1);
     driver.findElement((By.className("FirstName"))).sendKeys("Марина");
     TimeUnit.SECONDS.sleep(1);
     driver.findElement((By.className("MiddleName"))).sendKeys("Владимировна");
-    TimeUnit.SECONDS.sleep(1);
     Select dayOfBirth = new Select(driver.findElement(By.xpath("//select[@class='BirthDay' and @tabindex='15']")));
     dayOfBirth.selectByValue("13");
     Select monthOfBirth = new Select(driver.findElement(By.xpath("//select[@class='BirthMonth' and @tabindex='16']")));
