@@ -58,12 +58,15 @@ public class BPTestElements {
         testBlock(wait, robot, 5, "page must contains fifth test block instruction", KeyEvent.VK_3);
         testBlock(wait, robot, 6, "page must contains sixth test block instruction", KeyEvent.VK_2);
         testBlock(wait, robot, 7, "page must contains seventh test block instruction", KeyEvent.VK_3);
-        testBlock(wait, robot, 8, "page must contains eigth test block instruction", KeyEvent.VK_3);
+        testBlock(wait, robot, 8, "page must contains eighth test block instruction", KeyEvent.VK_3);
         testBlock(wait, robot, 9, "page must contains ninth test block instruction", KeyEvent.VK_1);
 
         showingResult(wait);
 
-        driver.close();
+        logoutFromPage(parentHandle);
+    }
+
+    private void logoutFromPage(String parentHandle) {
         driver.switchTo().window(parentHandle);
         driver.findElement(By.name("ButtonLogout")).click();
         driver.switchTo().alert().accept();
@@ -76,7 +79,7 @@ public class BPTestElements {
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("MTSReportBody"))));
     }
 
-    private void testBlock(WebDriverWait wait, Robot robot, int i2, String s, int vk3) throws InterruptedException {
+    private void testBlock(WebDriverWait wait, Robot robot, int i2, String s, int vk) throws InterruptedException {
         int questionCount;
         int questionNumber;
         int i;
@@ -101,14 +104,14 @@ public class BPTestElements {
                 System.err.println("page with question must contains instruction button");
             }
             if(i == 5) break;
-            robot.keyPress(vk3);
+            robot.keyPress(vk);
             driver.findElement(By.className("ButtonNext")).click();
         }
         driver.findElement(By.className("ButtonInstruction")).click();
         TimeUnit.SECONDS.sleep(1);
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("ButtonNext"))));
         try {
-            Assert.assertTrue(driver.findElement(By.xpath("//*[@class='BlockInstructionPanel']//*[@class='PanelValue']")).isDisplayed());
+            Assert.assertTrue(driver.findElement(By.xpath("//*[@class='InstructionHeader']//*[@class='BlockTitle']")).isDisplayed());
             Assert.assertEquals(Integer.parseInt((driver.findElement(By.xpath("//*[@class='BlockNumber']")).getText())), i2);
         } catch (AssertionError e) {
             System.err.println(s);
@@ -125,7 +128,7 @@ public class BPTestElements {
             } catch (AssertionError e) {
                 System.err.println("page with question must contains instruction button");
             }
-            robot.keyPress(vk3);
+            robot.keyPress(vk);
             driver.findElement(By.className("ButtonNext")).click();
         }
     }

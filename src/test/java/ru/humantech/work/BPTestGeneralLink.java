@@ -58,12 +58,15 @@ public class BPTestGeneralLink {
     testBlock(wait, robot, 5, "page must contains fifth test block instruction", KeyEvent.VK_3);
     testBlock(wait, robot, 6, "page must contains sixth test block instruction", KeyEvent.VK_2);
     testBlock(wait, robot, 7, "page must contains seventh test block instruction", KeyEvent.VK_3);
-    testBlock(wait, robot, 8, "page must contains eigth test block instruction", KeyEvent.VK_3);
+    testBlock(wait, robot, 8, "page must contains eighth test block instruction", KeyEvent.VK_3);
     testBlock(wait, robot, 9, "page must contains ninth test block instruction", KeyEvent.VK_1);
 
     showingResult(wait);
 
-    driver.close();
+    logoutFromPage(parentHandle);
+  }
+
+  private void logoutFromPage(String parentHandle) {
     driver.switchTo().window(parentHandle);
     driver.findElement(By.name("ButtonLogout")).click();
     driver.switchTo().alert().accept();
@@ -101,7 +104,7 @@ public class BPTestGeneralLink {
     }
   }
 
-  private void testBlock(WebDriverWait wait, Robot robot, int i2, String s, int vk3) throws InterruptedException {
+  private void testBlock(WebDriverWait wait, Robot robot, int i2, String s, int vk) throws InterruptedException {
     int questionCount;
     int i;
     Thread.sleep(1000);
@@ -124,7 +127,7 @@ public class BPTestGeneralLink {
       } catch (AssertionError e) {
         System.err.println("page with question must contains instruction button");
       }
-      robot.keyPress(vk3);
+      robot.keyPress(vk);
       driver.findElement(By.className("ButtonNext")).click();
     }
   }
