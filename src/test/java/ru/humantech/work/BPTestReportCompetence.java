@@ -1,22 +1,26 @@
 package ru.humantech.work;
 
 
-import java.io.File;
-import java.util.Date;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.annotations.*;
-import org.openqa.selenium.*;
-//import org.openqa.selenium.firefox.FirefoxDriver;
 import static org.testng.Assert.assertTrue;
 
+//import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class BPTestReportForRespondent {
+
+public class BPTestReportCompetence {
     private WebDriver driver;
 //    private static String downloadPath = "C:\\Users\\selfi";
 //  private boolean acceptNextAlert = true;
@@ -44,7 +48,7 @@ public class BPTestReportForRespondent {
     }
 
     @Test
-    public void testReportForRespondent()  throws Exception {
+    public void testReportCompetence()  throws Exception {
         String parentHandle = driver.getWindowHandle();
         WebDriverWait wait = new WebDriverWait(driver, 40);
 
@@ -62,8 +66,8 @@ public class BPTestReportForRespondent {
             System.err.println("Page must show results");
         }
         Select reportOption = new Select(driver.findElement(By.xpath("//select[@class='MTSInputField' and @name='ReportVariantId']")));
-        reportOption.selectByVisibleText("Проф-отчет : для респондента (шкал в профиле - 32)");
-//        reportOption.selectByValue("2");
+        reportOption.selectByVisibleText("Отчет по компетенциям (шкал в профиле - 11)");
+//        reportOption.selectByValue("5");
         TimeUnit.SECONDS.sleep(5);
         try {
             assertTrue(driver.findElement(By.xpath("//table[@class='MTSTableRecords']//*[@onmouseover='onMouseOverOutRow(this,true);']//*[@class='MTSTableRecords']//*[text()='PDF'][last()]")).isDisplayed());
@@ -123,9 +127,9 @@ public class BPTestReportForRespondent {
             System.err.println("Block 'Information about the test' must be shown");
         }
         try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Проф-отчет : для респондента']")).isDisplayed());
+            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Отчет по компетенциям']")).isDisplayed());
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the test' must be for respondent");
+            System.err.println("Block 'Information about the test' must be 'competence'");
         }
         try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).isDisplayed());
@@ -138,19 +142,9 @@ public class BPTestReportForRespondent {
             System.err.println("Block 'Results' must be shown");
         }
         try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Рекомендуемые профессии']")).isDisplayed());
-        } catch (AssertionError e) {
-            System.err.println("Block 'Recommended professions' must be shown");
-        }
-        try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).isDisplayed());
         } catch (AssertionError e) {
             System.err.println("Block 'Description of results' must be shown");
-        }
-        try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Блок развития']")).isDisplayed());
-        } catch (AssertionError e) {
-            System.err.println("Block 'Development' must be shown");
         }
     }
 

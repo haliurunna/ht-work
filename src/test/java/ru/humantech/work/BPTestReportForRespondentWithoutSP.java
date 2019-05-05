@@ -11,12 +11,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import java.awt.Robot;
 import org.openqa.selenium.*;
 //import org.openqa.selenium.firefox.FirefoxDriver;
 import static org.testng.Assert.assertTrue;
 
 
-public class BPTestReportForRespondent {
+public class BPTestReportForRespondentWithoutSP {
     private WebDriver driver;
 //    private static String downloadPath = "C:\\Users\\selfi";
 //  private boolean acceptNextAlert = true;
@@ -44,7 +45,7 @@ public class BPTestReportForRespondent {
     }
 
     @Test
-    public void testReportForRespondent()  throws Exception {
+    public void testReportForRespondentWithoutSP()  throws Exception {
         String parentHandle = driver.getWindowHandle();
         WebDriverWait wait = new WebDriverWait(driver, 40);
 
@@ -62,8 +63,8 @@ public class BPTestReportForRespondent {
             System.err.println("Page must show results");
         }
         Select reportOption = new Select(driver.findElement(By.xpath("//select[@class='MTSInputField' and @name='ReportVariantId']")));
-        reportOption.selectByVisibleText("Проф-отчет : для респондента (шкал в профиле - 32)");
-//        reportOption.selectByValue("2");
+        reportOption.selectByVisibleText("Проф-отчет : для респондента (без сходных профилей... (шкал в профиле - 32)");
+//        reportOption.selectByValue("7");
         TimeUnit.SECONDS.sleep(5);
         try {
             assertTrue(driver.findElement(By.xpath("//table[@class='MTSTableRecords']//*[@onmouseover='onMouseOverOutRow(this,true);']//*[@class='MTSTableRecords']//*[text()='PDF'][last()]")).isDisplayed());
@@ -78,7 +79,7 @@ public class BPTestReportForRespondent {
         driver.findElement(By.xpath("//table[@class='MTSTableRecords']//*[@onmouseover='onMouseOverOutRow(this,true);']//*[@class='MTSLink' and @title='просмотреть отчет'][last()]")).click();
         TimeUnit.SECONDS.sleep(1);
 
-        ReportCorrectness(wait);
+        reportCorrectness(wait);
 
         driver.switchTo().window(parentHandle);
         driver.findElement(By.name("ButtonLogout")).click();
@@ -112,7 +113,7 @@ public class BPTestReportForRespondent {
 //        return flag;
     }
 
-    private void ReportCorrectness(WebDriverWait wait) {
+    private void reportCorrectness(WebDriverWait wait) {
         for (String winHandle : driver.getWindowHandles()) {
             driver.switchTo().window(winHandle);
         }
@@ -123,9 +124,9 @@ public class BPTestReportForRespondent {
             System.err.println("Block 'Information about the test' must be shown");
         }
         try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Проф-отчет : для респондента']")).isDisplayed());
+            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Проф-отчет : для респондента (без сходных профилей)']")).isDisplayed());
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the test' must be for respondent");
+            System.err.println("Block 'Information about the test' must be for respondent without sp");
         }
         try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).isDisplayed());
@@ -136,11 +137,6 @@ public class BPTestReportForRespondent {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).isDisplayed());
         } catch (AssertionError e) {
             System.err.println("Block 'Results' must be shown");
-        }
-        try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Рекомендуемые профессии']")).isDisplayed());
-        } catch (AssertionError e) {
-            System.err.println("Block 'Recommended professions' must be shown");
         }
         try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).isDisplayed());
@@ -183,5 +179,3 @@ public class BPTestReportForRespondent {
         }
     }
 }
-
-

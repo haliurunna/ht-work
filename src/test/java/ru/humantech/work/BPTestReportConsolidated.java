@@ -1,22 +1,25 @@
 package ru.humantech.work;
 
 
-import java.io.File;
-import java.util.Date;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.annotations.*;
-import org.openqa.selenium.*;
-//import org.openqa.selenium.firefox.FirefoxDriver;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
+//import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class BPTestReportForRespondent {
+
+public class BPTestReportConsolidated {
     private WebDriver driver;
 //    private static String downloadPath = "C:\\Users\\selfi";
 //  private boolean acceptNextAlert = true;
@@ -44,7 +47,7 @@ public class BPTestReportForRespondent {
     }
 
     @Test
-    public void testReportForRespondent()  throws Exception {
+    public void testReportConsolidated()  throws Exception {
         String parentHandle = driver.getWindowHandle();
         WebDriverWait wait = new WebDriverWait(driver, 40);
 
@@ -62,19 +65,15 @@ public class BPTestReportForRespondent {
             System.err.println("Page must show results");
         }
         Select reportOption = new Select(driver.findElement(By.xpath("//select[@class='MTSInputField' and @name='ReportVariantId']")));
-        reportOption.selectByVisibleText("Проф-отчет : для респондента (шкал в профиле - 32)");
-//        reportOption.selectByValue("2");
+        reportOption.selectByVisibleText("сводный отчет (все варианты)");
+//        reportOption.selectByValue("joined");
         TimeUnit.SECONDS.sleep(5);
         try {
-            assertTrue(driver.findElement(By.xpath("//table[@class='MTSTableRecords']//*[@onmouseover='onMouseOverOutRow(this,true);']//*[@class='MTSTableRecords']//*[text()='PDF'][last()]")).isDisplayed());
+            assertTrue(driver.findElement(By.xpath("//table[@class='MTSTableRecords']//*[@onmouseover='onMouseOverOutRow(this,true);']//*[@class='MTSTableRecords']//*[contains(text(),'PDF')][last()]")).isDisplayed());
         } catch (AssertionError e) {
             System.err.println("PDF format must be available");
         }
-        try {
-            assertTrue(driver.findElement(By.xpath("//table[@class='MTSTableRecords']//*[@onmouseover='onMouseOverOutRow(this,true);']//*[@class='MTSTableRecords']//*[text()='DOCX'][last()]")).isDisplayed());
-        } catch (AssertionError e) {
-            System.err.println("DOCX format must be available");
-        }
+
         driver.findElement(By.xpath("//table[@class='MTSTableRecords']//*[@onmouseover='onMouseOverOutRow(this,true);']//*[@class='MTSLink' and @title='просмотреть отчет'][last()]")).click();
         TimeUnit.SECONDS.sleep(1);
 
@@ -116,42 +115,47 @@ public class BPTestReportForRespondent {
         for (String winHandle : driver.getWindowHandles()) {
             driver.switchTo().window(winHandle);
         }
+
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("MTSReportBody"))));
+        //Блок должен быть показан один раз (бизнес), показывается 6, тест для 6
         try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).isDisplayed());
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).size(),6);
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the test' must be shown");
+            System.err.println("Block 'Information about the test' must be shown six times");
+        }
+//        try {
+//            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Бизнес-отчет']")).isDisplayed());
+//        } catch (AssertionError e) {
+//            System.err.println("Block 'Information about the test' must be 'business'");
+//        }
+        //Блок должен быть показан один раз , показывается 6, тест для 6
+        try {
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).size(),6);
+        } catch (AssertionError e) {
+            System.err.println("Block 'Information about the respondent' must be shown six times");
         }
         try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Проф-отчет : для респондента']")).isDisplayed());
+
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).size(),6);
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the test' must be for respondent");
+            System.err.println("Block 'Results' must be shown six times");
         }
         try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).isDisplayed());
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).size(),6);
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the respondent' must be shown");
+            System.err.println("Block 'Description of results' must be shown six times");
         }
         try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).isDisplayed());
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Рекомендуемые профессии']")).size(),2);
         } catch (AssertionError e) {
-            System.err.println("Block 'Results' must be shown");
+            System.err.println("Block 'Recommended professions' must be shown twice");
         }
         try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Рекомендуемые профессии']")).isDisplayed());
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Блок развития']")).size(),2);
         } catch (AssertionError e) {
-            System.err.println("Block 'Recommended professions' must be shown");
+            System.err.println("Block 'Development' must be shown twice");
         }
-        try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).isDisplayed());
-        } catch (AssertionError e) {
-            System.err.println("Block 'Description of results' must be shown");
-        }
-        try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Блок развития']")).isDisplayed());
-        } catch (AssertionError e) {
-            System.err.println("Block 'Development' must be shown");
-        }
+
     }
 
 

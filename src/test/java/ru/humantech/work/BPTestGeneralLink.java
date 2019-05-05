@@ -10,6 +10,7 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import static org.testng.Assert.assertTrue;
 
 public class BPTestGeneralLink {
@@ -18,8 +19,9 @@ public class BPTestGeneralLink {
   //private StringBuffer verificationErrors = new StringBuffer();
 
   @BeforeClass(alwaysRun = true)
-  public void setUp() throws Exception {
-    driver = new FirefoxDriver();
+  public void setUp() {
+    driver = new ChromeDriver();
+//        driver = new FirefoxDriver();
     driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
     driver.get("https://test.ht-line.ru/logon/");
     login("mkupriyanova", "h3krdh2e");
@@ -92,6 +94,11 @@ public class BPTestGeneralLink {
     } catch (AssertionError e) {
       System.err.println("Block 'Results' must be shown");
     }
+//    try {
+//      Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Рекомендуемые профессии']")).isDisplayed());
+//    } catch (AssertionError e) {
+//      System.err.println("Block 'Recommended professions' must be shown");
+//    }
     try {
       Assert.assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).isDisplayed());
     } catch (AssertionError e) {
