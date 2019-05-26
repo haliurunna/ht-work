@@ -10,5 +10,8 @@ dependencies {
 }
 
 test{
-    useTestNG()
+    useTestNG(){
+        useDefaultListeners = true
+        suits 'src/test/resources/testng-bp.xml'
+    }
 }

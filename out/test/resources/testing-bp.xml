@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite1" verbose="1" >
+    <test name="BP">
+        <classes>
+            <class name="ru.humantech.work.BPTestGeneralLink"/>
+            <class name="ru.humantech.work.BPTestElements"/>
+            <class name="ru.humantech.work.BPTestReportForRespondent"/>
+            <class name="ru.humantech.work.BPTestReportForRespondentWithoutSP"/>
+            <class name="ru.humantech.work.BPTestReportForSpecialist"/>
+            <class name="ru.humantech.work.BPTestReportForSpecialistWithoutSP"/>
+            <class name="ru.humantech.work.BPTestReportBusiness"/>
+            <class name="ru.humantech.work.BPTestReportCompetence"/>
+            <class name="ru.humantech.work.BPTestReportConsolidated"/>
+            <class name="ru.humantech.work.BPTestPersonalLink"/>
+            <class name="ru.humantech.work.BPTestRecoveryFromPersonalAccount"/>
+        </classes>
+    </test>
+</suite>

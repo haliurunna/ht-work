@@ -1,20 +1,24 @@
 package ru.humantech.work;
 
 
-import java.io.File;
-import java.util.Date;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
-import org.testng.annotations.*;
-import java.awt.Robot;
-import org.openqa.selenium.*;
-//import org.openqa.selenium.firefox.FirefoxDriver;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+
+//import org.openqa.selenium.firefox.FirefoxDriver;
 
 
 public class BPTestReportForRespondentWithoutSP {
@@ -119,9 +123,10 @@ public class BPTestReportForRespondentWithoutSP {
         }
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("MTSReportBody"))));
         try {
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).size(),1);
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).isDisplayed());
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the test' must be shown");
+            System.err.println("Block 'Information about the test' must be shown once");
         }
         try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Проф-отчет : для респондента (без сходных профилей)']")).isDisplayed());
@@ -129,24 +134,28 @@ public class BPTestReportForRespondentWithoutSP {
             System.err.println("Block 'Information about the test' must be for respondent without sp");
         }
         try {
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).size(),1);
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).isDisplayed());
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the respondent' must be shown");
+            System.err.println("Block 'Information about the respondent' must be shown once");
         }
         try {
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).size(),1);
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).isDisplayed());
         } catch (AssertionError e) {
-            System.err.println("Block 'Results' must be shown");
+            System.err.println("Block 'Results' must be shown once");
         }
         try {
-            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).isDisplayed());
-        } catch (AssertionError e) {
-            System.err.println("Block 'Description of results' must be shown");
-        }
-        try {
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).size(),1);
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Блок развития']")).isDisplayed());
         } catch (AssertionError e) {
-            System.err.println("Block 'Development' must be shown");
+            System.err.println("Block 'Description of results' must be shown once");
+        }
+        try {
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Блок развития']")).size(),1);
+            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Блок развития']")).isDisplayed());
+        } catch (AssertionError e) {
+            System.err.println("Block 'Development' must be shown once");
         }
     }
 

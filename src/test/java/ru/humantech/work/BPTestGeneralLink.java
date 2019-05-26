@@ -1,17 +1,19 @@
 package ru.humantech.work;
 
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.*;
-import java.awt.Robot;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import static org.testng.Assert.assertTrue;
+import java.util.concurrent.TimeUnit;
 
 public class BPTestGeneralLink {
   private WebDriver driver;
@@ -230,24 +232,24 @@ public class BPTestGeneralLink {
 //    }
   }
 
-  private boolean isElementPresent(By by) {
-    try {
-      driver.findElement(by);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
-    }
-  }
-
-  private boolean isAlertPresent() {
-    try {
-      driver.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
-
+//  private boolean isElementPresent(By by) {
+//    try {
+//      driver.findElement(by);
+//      return true;
+//    } catch (NoSuchElementException e) {
+//      return false;
+//    }
+//  }
+//
+//  private boolean isAlertPresent() {
+//    try {
+//      driver.switchTo().alert();
+//      return true;
+//    } catch (NoAlertPresentException e) {
+//      return false;
+//    }
+//  }
+//
 //  private String closeAlertAndGetItsText() {
 //    try {
 //      Alert alert = driver.switchTo().alert();

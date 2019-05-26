@@ -1,7 +1,10 @@
 package ru.humantech.work;
 
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -10,7 +13,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static org.testng.Assert.assertEquals;
@@ -117,22 +119,20 @@ public class BPTestReportConsolidated {
         }
 
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("MTSReportBody"))));
-        //Блок должен быть показан один раз (бизнес), показывается 6, тест для 6
         try {
-            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).size(),6);
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).size(),1);
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the test' must be shown six times");
+            System.err.println("Block 'Information about the test' must be shown once");
         }
-//        try {
-//            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Бизнес-отчет']")).isDisplayed());
-//        } catch (AssertionError e) {
-//            System.err.println("Block 'Information about the test' must be 'business'");
-//        }
-        //Блок должен быть показан один раз , показывается 6, тест для 6
         try {
-            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).size(),6);
+            assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Бизнес-отчет']")).isDisplayed());
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the respondent' must be shown six times");
+            System.err.println("Block 'Information about the test' must be 'business'");
+        }
+        try {
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).size(),1);
+        } catch (AssertionError e) {
+            System.err.println("Block 'Information about the respondent' must be shown once");
         }
         try {
 

@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 //import org.openqa.selenium.firefox.FirefoxDriver;
@@ -123,8 +124,9 @@ public class BPTestReportBusiness {
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.className("MTSReportBody"))));
         try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).isDisplayed());
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о тестировании']")).size(),2);
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the test' must be shown");
+            System.err.println("Block 'Information about the test' must be shown once");
         }
         try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock-content']//*[text()='Бизнес-отчет']")).isDisplayed());
@@ -133,18 +135,21 @@ public class BPTestReportBusiness {
         }
         try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).isDisplayed());
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Информация о респонденте']")).size(),1);
         } catch (AssertionError e) {
-            System.err.println("Block 'Information about the respondent' must be shown");
+            System.err.println("Block 'Information about the respondent' must be shown once");
         }
         try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).isDisplayed());
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Профиль результатов']")).size(),1);
         } catch (AssertionError e) {
-            System.err.println("Block 'Results' must be shown");
+            System.err.println("Block 'Results' must be shown once");
         }
         try {
             assertTrue(driver.findElement(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).isDisplayed());
+            assertEquals(driver.findElements(By.xpath("//*[@class='HTReportBlock']//*[@class='blocktitle']//*[text()='Описание результатов']")).size(),1);
         } catch (AssertionError e) {
-            System.err.println("Block 'Description of results' must be shown");
+            System.err.println("Block 'Description of results' must be shown once");
         }
     }
 
